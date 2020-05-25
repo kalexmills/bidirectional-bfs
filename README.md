@@ -25,7 +25,7 @@ You can see that the search visits only about half of the graph's nodes, which i
 
 
 #### What about bigger graphs?
-The largest graph in the DIMACS dataset contains 23 million nodes and 58 million edges. Serialized, the file weighs in at 13 GB. My highly anecdotal and not-at-all scientific method of randomly typing in numbers (I did it more than twice!) yields search times highly dependent on the start and end points (as expected). Here's my output for one of the longer paths which ends up searching only 65% of the total nodes and 32% of the total edges.
+The largest graph in the DIMACS dataset contains 23 million nodes and 58 million edges. Serialized, the file weighs in at 13 GB. My highly anecdotal and not-at-all scientific method of randomly typing in numbers (I did it more than twice!) yields search times highly dependent on the start and end points (as expected). Here's the output for one of the longer paths (4.5k nodes) which ends up searching only 65% of the nodes and 32% of the edges in the graph.
 
 ```
 $ go run . 12 15042564
