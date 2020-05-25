@@ -33,9 +33,7 @@ func main() {
 
 	fmt.Println("Searching for fewest-hops path from node", startV, "to node", endV)
 
-	start := time.Now()
 	fmt.Println(Bfs(graph, startV, endV))
-	fmt.Println("Search took", time.Since(start))
 }
 
 // Bfs performs a parallel, cooperative breadth-first search of the provided graph. Two peers begin their search
@@ -43,11 +41,12 @@ func main() {
 // visited a node that A has already seen, the search frontiers have collided, and the fewest-hop path is returned.
 func Bfs(graph map[int][]int, u int, v int) []int {
 	done := make(chan int, 1)
-	uChan := make(chan int, 64*1024) // these sizes are arbitrary
+	uChan := make(chan int, 64*1024) // these buffer sizes are arbitrary
 	vChan := make(chan int, 64*1024)
-	graphCopy := copyMap(graph)
+
+	start := time.Now()
 	uResult := bfsPeer(u, done, vChan, uChan, graph)
-	vResult := bfsPeer(v, done, uChan, vChan, graphCopy)
+	vResult := bfsPeer(v, done, uChan, vChan, graph)
 
 	var uPath, vPath []int
 	select {
@@ -63,14 +62,10 @@ func Bfs(graph map[int][]int, u int, v int) []int {
 		uPath = <-uResult
 	}
 
-	return append(reverse(uPath), vPath[1:]...)
-}
+	result := append(reverse(uPath), vPath[1:]...)
 
-func copyMap(source map[int][]int) map[int][]int {
-	result := make(map[int][]int)
-	for k, v := range source {
-		result[k] = append(result[k], v...)
-	}
+	fmt.Println("Search took", time.Since(start))
+
 	return result
 }
 
@@ -113,17 +108,18 @@ func bfsPeer(start int, done chan int, peerOut chan<- int, peerIn <-chan int, gr
 				// expand search and send peer the visited node
 				next := frontier[0]
 				frontier = frontier[1:]
-				neighbors := graph[next]
-				for i := 0; i < len(neighbors); i++ {
-					if _, iVisited := visited[neighbors[i]]; !iVisited {
-						edgeCount++
-						pred[neighbors[i]] = next
-						frontier = append(frontier, neighbors[i])
-						peerOut <- neighbors[i]
-						delete(graph, next) // remove this node's outgoing edges to avoid much useless work
+				if !visited[next] {
+					neighbors := graph[next]
+					for i := 0; i < len(neighbors); i++ {
+						if _, iVisited := visited[neighbors[i]]; !iVisited {
+							edgeCount++
+							pred[neighbors[i]] = next
+							frontier = append(frontier, neighbors[i])
+							peerOut <- neighbors[i]
+						}
 					}
+					visited[next] = true
 				}
-				visited[next] = true
 
 				if len(frontier) == 0 {
 					result <- nil // no path exists; report this fact
@@ -217,7 +213,7 @@ func loadGraph(lines []string) map[int][]int {
 	return result
 }
 
-// convToken is a helper for loadGraph, which converts tokens to integers, or panics with
+// convToken is a helper for graph loading, which converts tokens to integers, or panics with
 // a helpful error.
 func convToken(str string, line, token int) int {
 	result, err := strconv.Atoi(str)
@@ -232,14 +228,13 @@ func lines(filename string) <-chan string {
 	out := make(chan string)
 	go func() {
 		defer close(out)
-		// Stream from file, so we know that we can
-		file, err := os.Open(filename)
+		file, err := os.Open(filename) // Stream from file, so we know that we can
 		if err != nil {
 			log.Panic(err)
 		}
 		defer file.Close()
 
-		buf := make([]byte, 64*1024)
+		buf := make([]byte, 64*1024*1024) // 64 MB at at time is probably fine
 		var next []byte = nil
 		for {
 			n, err := file.Read(buf)
