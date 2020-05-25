@@ -3,7 +3,7 @@ Parallel bi-directional BFS in Golang for fewest-hops paths (i.e. unweighted sho
 
 A simple implementation of parallel [bidirectional BFS](https://en.wikipedia.org/wiki/Bidirectional_search) for point-to-point queries in graphs.
 This mostly exists to help me test my newfound knowledge of Go's concurrency patterns, but it's pretty fast too.
-The included data is one of the smaller sets (15 MB) from [the 9th DIMACs implementation challenge](http://users.diag.uniroma1.it/challenge9/download.shtml). The link contains bigger graphs you can try for yourself.
+The included data is one of the smaller sets (15 MB) from [the 9th DIMACS implementation challenge](http://users.diag.uniroma1.it/challenge9/download.shtml). The link contains bigger graphs you can try for yourself.
 
 ### Brief Explanation
 
@@ -25,7 +25,7 @@ You can see that the search visits only about half of the graph's nodes, which i
 
 
 #### What about bigger graphs?
-The largest graph in the DIMACs dataset contains 23 million nodes and 58 million edges. Serialized, the file weighs in at 13 GB. My highly anecdotal and not-at-all scientific method of randomly typing in numbers (I did it more than twice!) yields search times highly dependent on the start and end points (as expected). Here's my output for one of the longer paths which ends up searching only 65% of the total nodes and 32% of the total edges.
+The largest graph in the DIMACS dataset contains 23 million nodes and 58 million edges. Serialized, the file weighs in at 13 GB. My highly anecdotal and not-at-all scientific method of randomly typing in numbers (I did it more than twice!) yields search times highly dependent on the start and end points (as expected). Here's my output for one of the longer paths which ends up searching only 65% of the total nodes and 32% of the total edges.
 
 ```
 $ go run . 12 15042564
