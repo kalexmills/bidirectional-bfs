@@ -3,7 +3,7 @@
 
 A simple implementation of parallel [bidirectional BFS](https://en.wikipedia.org/wiki/Bidirectional_search) for point-to-point queries in graphs.
 This mostly exists to help me test my newfound knowledge of Go's concurrency patterns, but it's pretty fast too.
-The included data is one of the smaller sets (15 MB) from [the 9th DIMACS implementation challenge](http://users.diag.uniroma1.it/challenge9/download.shtml). The link contains bigger graphs you can try for yourself.
+The included data is one of the smaller sets (15 MB) from [the 9th DIMACS implementation challenge](http://users.diag.uniroma1.it/challenge9/download.shtml). The link contains bigger graphs you can download and try for yourself.
 
 ### Brief Explanation
 
