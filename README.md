@@ -1,5 +1,5 @@
 # bidirectional-bfs
-> Parallel bi-directional BFS in Golang for fewest-hops paths (i.e. unweighted shortest paths)
+> Parallel bi-directional BFS in Golang for fewest-hops paths
 
 A simple implementation of parallel [bidirectional BFS](https://en.wikipedia.org/wiki/Bidirectional_search) for point-to-point queries in graphs.
 This mostly exists to help me test my newfound knowledge of Go's concurrency patterns, but it's pretty fast too.
