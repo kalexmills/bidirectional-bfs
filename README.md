@@ -5,7 +5,7 @@ A simple implementation of parallel [bidirectional BFS](https://en.wikipedia.org
 This mostly exists to help me test my newfound knowledge of Go's concurrency patterns, but it's pretty fast too.
 The included data is one of the smaller sets (15 MB) from [the 9th DIMACs implementation challenge](http://users.diag.uniroma1.it/challenge9/download.shtml). The link contains bigger graphs you can try for yourself.
 
-### Explanation
+### Brief Explanation
 
 The search starts two go-routines, one searching from the source and the second searching from the destination. Each
 goroutine sends newly found nodes to the other along a channel. When a node the other has visited is found, each 
@@ -24,6 +24,6 @@ Search took 29.6079ms
 You can see that the search visits only about half of the graph's nodes, which is the reason to use bidirectional search.
 
 
-##### And what about bigger graphs?
+#### What about bigger graphs?
 
-The largest graph in the DIMACs dataset contains 23 million nodes. Serialized, the file weighs in at 13 GB. My highly anecdotal and not-at-all scientific method of randomly typing in numbers (I did it twice!) yields search times around 13 seconds, which only visit less than 1% of the nodes in the graph. If I become interested again I might try something more scientific. The vast majority of that time is spent copying the graph in memory (the present implementation deletes visited nodes from the graph).
+The largest graph in the DIMACs dataset contains 23 million nodes. Serialized, the file weighs in at 13 GB. My highly anecdotal and not-at-all scientific method of randomly typing in numbers (I did it more than twice!) yields search times well under 100 milliseconds.
