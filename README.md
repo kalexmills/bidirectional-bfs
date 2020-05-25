@@ -22,3 +22,8 @@ BFS starting from 62352 visited 70367 nodes and 96562 edges
 Search took 241.7885ms
 ```
 You can see that the search visits only about half of the graph's nodes, which is the reason to use bidirectional search.
+
+
+##### And what about bigger graphs?
+
+The largest graph in the DIMACs dataset contains 23 million nodes. Serialized, the file weighs in at 13 GB. My highly anecdotal and not-at-all scientific method of randomly typing in numbers (I did it twice!) yields search times around 13 seconds, which only visit less than 1% of the nodes in the graph. If I become interested again I might try something more scientific. The vast majority of that time is spent copying the graph in memory (the present implementation deletes visited nodes from the graph).
