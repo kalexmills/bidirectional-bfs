@@ -13,7 +13,7 @@ goroutine reconstructs their half of the path and sends it to the main thread, w
 
 ### Example usage and expected output
 ```
-bidirectional-bfs> go run . 12 251243
+$ go run . 12 251243
 Data loaded; graph has 264346 nodes
 Searching for fewest-hops path from node 12 to node 251243
 BFS starting from 251243 visited 14952 nodes and 22504 edges
@@ -28,7 +28,7 @@ You can see that the search visits only about half of the graph's nodes, which i
 The largest graph in the DIMACs dataset contains 23 million nodes and 58 million edges. Serialized, the file weighs in at 13 GB. My highly anecdotal and not-at-all scientific method of randomly typing in numbers (I did it more than twice!) yields search times highly dependent on the start and end points (as expected). Here's my output for one of the longer paths which ends up searching only 65% of the total nodes and 32% of the total edges.
 
 ```
-bidirectional-bfs> go run . 12 15042564
+$ go run . 12 15042564
 Data loaded; graph has 23947347 nodes
 Searching for fewest-hops path from node 12 to node 15042564
 BFS starting from 12 visited 7770000 nodes and 9249150 edges
