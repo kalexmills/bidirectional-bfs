@@ -7,7 +7,7 @@ The included data is one of the smaller sets (15 MB) from [the 9th DIMACS implem
 
 ### Brief Explanation
 
-The search starts two go-routines, one searching from the source and the second searching from the destination. Each
+The search starts two goroutines, one searching from the source and the second searching from the destination. Each
 goroutine sends newly found nodes to the other along a channel. When a node the other has visited is found, each 
 goroutine reconstructs their half of the path and sends it to the main thread, which combines the data appropriately.
 
